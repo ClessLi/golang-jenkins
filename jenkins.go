@@ -209,7 +209,7 @@ func (jenkins *Jenkins) GetJobs() ([]Job, error) {
 }
 
 // GetJobsByViews returns jobs of views you can read.
-func (jenkins *Jenkins) GetJobsByViews(views []ListView) ([]Job, error) {
+func (jenkins *Jenkins) GetJobsByViews(views []string) ([]Job, error) {
 	var payload = struct {
 		Jobs []Job `json:"jobs"`
 	}{}
@@ -219,7 +219,7 @@ func (jenkins *Jenkins) GetJobsByViews(views []ListView) ([]Job, error) {
 			var tmpload = struct {
 				Jobs []Job `json:"jobs"`
 			}{}
-			err := jenkins.get("view/"+views[i].Name, nil, &payload)
+			err := jenkins.get("view/"+views[i], nil, &payload)
 			if err != nil {
 				return payload.Jobs, err
 			}
