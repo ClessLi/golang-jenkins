@@ -208,6 +208,29 @@ func (jenkins *Jenkins) GetJobs() ([]Job, error) {
 	return payload.Jobs, err
 }
 
+// GetJobsByViews returns jobs of views you can read.
+func (jenkins *Jenkins) GetJobsByViews(views []ListView) ([]Job, error) {
+	var payload = struct {
+		Jobs []Job `json:"jobs"`
+	}{}
+	viewCount := len(views)
+	if viewCount > 0 {
+		for i := 0; i < viewCount; i++ {
+			var tmpload = struct {
+				Jobs []Job `json:"jobs"`
+			}{}
+			err := jenkins.get("view/"+views[i].Name, nil, &payload)
+			if err != nil {
+				return payload.Jobs, err
+			}
+			payload.Jobs = append(payload.Jobs, tmpload.Jobs...)
+		}
+		return payload.Jobs, nil
+	} else {
+		return jenkins.GetJobs()
+	}
+}
+
 // GetJob returns a job which has specified name.
 func (jenkins *Jenkins) GetJob(name string) (job Job, err error) {
 	err = jenkins.get(fmt.Sprintf("/job/%s", name), nil, &job)
