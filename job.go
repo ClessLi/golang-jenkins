@@ -76,6 +76,7 @@ type Job struct {
 	Description  string   `json:"description"`
 	HealthReport []Health `json:"healthReport"`
 
+	LastBuild             Build `json:"lastBuild"`
 	LastCompletedBuild    Build `json:"lastCompletedBuild"`
 	LastFailedBuild       Build `json:"lastFailedBuild"`
 	LastStableBuild       Build `json:"lastStableBuild"`
