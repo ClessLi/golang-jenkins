@@ -219,7 +219,7 @@ func (jenkins *Jenkins) GetJobsByViews(views []string) ([]Job, error) {
 			var tmpload = struct {
 				Jobs []Job `json:"jobs"`
 			}{}
-			err := jenkins.get("/view/"+views[i], nil, &payload)
+			err := jenkins.get("/view/"+views[i], nil, &tmpload)
 			if err != nil {
 				return payload.Jobs, err
 			}
